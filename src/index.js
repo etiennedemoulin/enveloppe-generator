@@ -25,9 +25,9 @@ merger.connect(audioContext.destination);
 for (let i = 0; i < numChannels; i++) {
   states.push({
     id:i,
-    startFreq:100.5, // freq, Hz
-    endFreq:600, // freq, Hz
-    duration:12, // time, second
+    startFreq:440, // freq, Hz
+    endFreq:442, // freq, Hz
+    duration:2, // time, second
     volume:40, // relative, 0/100
     attack:0.05, // time, second
     decay:0, // time, second

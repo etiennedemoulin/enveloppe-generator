@@ -194,29 +194,37 @@ class Generator extends LitElement {
 		delete params.currentVol;
 		delete params.timeoutFunc;
 
-		const JSON_FILE_DESCRIPTION = {
-    		description: 'Excel CSV',
-    		accept: {
-        		'text/csv': ['.csv'],
-    		}
+		const jparams = JSON.stringify(params);
+
+		const opts = {
+			suggestedName: 'config.json',
+		types: [
+		  {
+		    description: "json configuration file",
+		    accept: { "application/json": [".json"] },
+		  },
+		],
 		};
 
-		let fileHandle = showSaveFilePicker({
-        	'config.json',
-        	types: [JSON_FILE_DESCRIPTION]
-    	});
-
-		const jparams = JSON.stringify(params);
-		const writable = await fileHandle.createWritable();
-		await writable.write(jparams);
-		await writable.close();
-	    const a = document.createElement('a');
-    	a.href = URL.createObjectURL(new Blob([JSON.stringify(jparams)]));
-    	a.download = 'config.json';
-    	a.click();
-    	URL.revokeObjectURL(a.href);
+		try {
+			let fileHandle = await window.showSaveFilePicker(opts);
+			const writable = await fileHandle.createWritable();
+			await writable.write(jparams);
+			await writable.close();
+		} catch (err) {
+			const a = document.createElement("a"),
+        	 	file = new Blob([jparams]);
+        	const url = URL.createObjectURL(file);
+        	a.href = url;
+        	a.download = 'config.json';
+        	document.body.appendChild(a);
+        	a.click();
+        	setTimeout(function() {
+            	document.body.removeChild(a);
+            	window.URL.revokeObjectURL(url);  
+        	}, 0); 
+		}
 	}
-
 
 
 	read() {
@@ -225,12 +233,13 @@ class Generator extends LitElement {
     	inputElement.type = 'file';
 
     	inputElement.addEventListener('change', () => {
-        	if (inputElemenet.files) {
+        	if (inputElement.files) {
         		const file = inputElement.files[0];
         		const reader = new FileReader();
         		reader.onload = (e) => {
         			try {
         				this.state = JSON.parse(e.target.result);
+        				this.requestUpdate();
         			} catch (err) {
         				throw new Error(err);
         			}
