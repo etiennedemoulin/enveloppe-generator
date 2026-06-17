@@ -78,4 +78,9 @@ export class Engine {
   disconnect() {
     this.env.disconnect();
   }
+
+  requestUpdate(update) {
+    this.state = update;
+  }
+
 }

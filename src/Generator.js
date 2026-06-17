@@ -240,6 +240,7 @@ class Generator extends LitElement {
         			try {
         				this.state = JSON.parse(e.target.result);
         				this.requestUpdate();
+        				this.engine.requestUpdate(this.state);
         			} catch (err) {
         				throw new Error(err);
         			}
