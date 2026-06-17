@@ -116,7 +116,7 @@ class Generator extends LitElement {
 					min=0
 					value=${this.currentFreq}
 					?integer=false
-					?editable=false
+					?readonly=true
 				></sc-number>
 			</div>
 			<div>
@@ -166,7 +166,7 @@ class Generator extends LitElement {
 					min=0
 					value=${this.currentVol}
 					?integer=false
-					?editable=false
+					?readonly=true
 				></sc-number>
 			</div>
 			<div class="separator"></div>
