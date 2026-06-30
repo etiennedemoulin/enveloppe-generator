@@ -21,30 +21,34 @@ export class Engine {
     // this.osc.frequency.cancelScheduledValues(now);
 
     const triggerAtTime = now + 0.05;
-    const releaseStartTime = triggerAtTime + this.state.duration;
 
-    const attackStartTime = triggerAtTime;
-    const decayStartTime = triggerAtTime + this.state.attack;
-    const sustainStartTime = decayStartTime + this.state.decay;
-    const releaseEndTime = releaseStartTime + this.state.release;
+    const triggerTime = now + 0.05;
+    const stationaryTime = triggerTime + this.state.attack;
+    const decayTime = stationaryTime + this.state.stationary;
+    const decayEndTime = decayTime + this.state.decay;
+    const releaseTime = triggerAtTime + this.state.duration;
+    const endTime = releaseTime + this.state.release;
 
     const attackVolume = this.state.volume / 400;
-    const sustainVolume = attackVolume * this.state.sustain;
+    const sustainVolume = this.state.sustain / 400;
 
     // attack
-    this.env.gain.setValueAtTime(0, attackStartTime);
-    this.env.gain.linearRampToValueAtTime(attackVolume, decayStartTime);
+    this.env.gain.setValueAtTime(0, triggerTime);
+    this.env.gain.linearRampToValueAtTime(attackVolume, stationaryTime);
+
+    // stationary
+    this.env.gain.linearRampToValueAtTime(attackVolume, decayTime);
 
     // decay
-    this.env.gain.linearRampToValueAtTime(sustainVolume, sustainStartTime);
+    this.env.gain.linearRampToValueAtTime(sustainVolume, decayEndTime);
 
     // sustain
-    this.env.gain.setValueAtTime(sustainVolume, releaseStartTime);
-    this.env.gain.linearRampToValueAtTime(0, releaseEndTime);
+    this.env.gain.setValueAtTime(sustainVolume, releaseTime);
+    this.env.gain.linearRampToValueAtTime(0, endTime);
 
     // frequency
-    this.osc.frequency.setValueAtTime(this.state.startFreq, triggerAtTime);
-    this.osc.frequency.linearRampToValueAtTime(this.state.endFreq, releaseStartTime);
+    this.osc.frequency.setValueAtTime(this.state.startFreq, stationaryTime);
+    this.osc.frequency.linearRampToValueAtTime(this.state.endFreq, releaseTime);
 
   }
 

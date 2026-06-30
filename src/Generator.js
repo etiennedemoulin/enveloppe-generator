@@ -42,22 +42,26 @@ class Generator extends LitElement {
 	    }
 
 	    sc-number {
-	    	width: 125px;
+	    	width: 140px;
 	    	margin: 4px;
 	    }
 
 	    sc-text {
-	    	width: 125px;
+	    	width: 140px;
 	    	margin: 4px;
 	    }
 
 	    sc-button {
-	    	width: 125px;
+	    	width: 140px;
 	    	margin: 4px;
 	    }
 
+	    sc-number {
+	    	width: 140px;
+	    }
+
 	    .first {
-	    	width: 264px;
+	    	width: 294px;
 	    }
 
 	`;
@@ -72,15 +76,15 @@ class Generator extends LitElement {
 		return html`
 			<div>
 				<sc-text class="first" value="Electroaimant #${this.state.id + 1}"></sc-text>
-			  	<sc-text value="Start frequency"></sc-text>
-				<sc-text value="End frequency"></sc-text>
-				<sc-text value="Duration"></sc-text>
+			  	<sc-text value="Fréquence de départ"></sc-text>
+				<sc-text value="Fréquence d'arrivée"></sc-text>
+				<sc-text value="Durée"></sc-text>
 				<sc-text value="Volume"></sc-text>
-				<sc-text value="Current freq"></sc-text>
+				<sc-text value="Fréquence actuelle"></sc-text>
 			</div>
 			<div>
 				<sc-button
-					value="Play"
+					value="Lecture"
 					@input=${this.start}
 				></sc-button>
 				<sc-button
@@ -90,84 +94,81 @@ class Generator extends LitElement {
 			  	<sc-number
 					min=0
 					value=${this.state.startFreq}
-					?integer=false
 					@input=${e => this.state.startFreq = e.detail.value}
 				></sc-number>
 			  	<sc-number
 					min=0
 					value=${this.state.endFreq}
-					?integer=false
 					@input=${e => this.state.endFreq = e.detail.value}
 				></sc-number>
 			  	<sc-number
 					min=0
 					value=${this.state.duration}
-					?integer=false
 					@input=${e => this.state.duration = e.detail.value}
 				></sc-number>
 				<sc-number
 					min=0
 					max=100
 					value=${this.state.volume}
-					?integer=false
 					@input=${e => this.state.volume = e.detail.value}
 				></sc-number>
 				<sc-number
 					min=0
 					value=${this.currentFreq}
-					?integer=false
-					?readonly=true
-				></sc-number>
-			</div>
-			<div>
-				<sc-text value="Attack time"></sc-text>
-				<sc-text value="Decay time"></sc-text>
-				<sc-text value="Sustain"></sc-text>
-				<sc-text value="Release time"></sc-text>
-				<sc-text value=""></sc-text>
-				<sc-text value=""></sc-text>
-				<sc-text value="Current volume"></sc-text>
-			</div>
-			<div>
-			  	<sc-number
-					min=0
-					value=${this.state.attack}
-					?integer=false
-					@input=${e => this.state.attack = e.detail.value}
-				></sc-number>
-			  	<sc-number
-					min=0
-					value=${this.state.decay}
-					?integer=false
-					@input=${e => this.state.decay = e.detail.value}
-				></sc-number>
-				<sc-number
-					min=0
-					max=1
-					value=${this.state.sustain}
-					?integer=false
-					@input=${e => this.state.sustain = e.detail.value}
-				></sc-number>
-				<sc-number
-					min=0
-					value=${this.state.release}
-					?integer=false
-					@input=${e => this.state.release = e.detail.value}
+					readonly=true
 				></sc-number>
 				<sc-button
 					value="Save"
 					@input=${this.save}
 				></sc-button>
+			</div>
+			<div>
+				<sc-text value="Temps d'attaque"></sc-text>
+				<sc-text value="Temps de release"></sc-text>
+				<sc-text value="Temps stationnaire"></sc-text>
+				<sc-text value="Temps de decay"></sc-text>
+				<sc-text value="Volume de decay"></sc-text>
+				<sc-text value=""></sc-text>
+				<sc-text value="Volume actuel"></sc-text>
+			</div>
+			<div>
+			  	<sc-number
+					min=0
+					value=${this.state.attack}
+					@input=${e => this.state.attack = e.detail.value}
+				></sc-number>
+				<sc-number
+					min=0
+					value=${this.state.release}
+					@input=${e => this.state.release = e.detail.value}
+				></sc-number>
+			  	<sc-number
+					min=0
+					value=${this.state.stationary}
+					@input=${e => this.state.stationary = e.detail.value}
+				></sc-number>
+				<sc-number
+					min=0
+					max=100
+					value=${this.state.decay}
+					@input=${e => this.state.decay = e.detail.value}
+				></sc-number>
+				<sc-number
+					min=0
+					value=${this.state.sustain}
+					@input=${e => this.state.sustain = e.detail.value}
+				></sc-number>
+				<sc-text
+				></sc-text>
+				<sc-number
+					min=0
+					value=${this.currentVol}
+					readonly=true
+				></sc-number>
 				<sc-button
 					value="Read"
 					@input=${this.read}
 				></sc-button>
-				<sc-number
-					min=0
-					value=${this.currentVol}
-					?integer=false
-					?readonly=true
-				></sc-number>
 			</div>
 			<div class="separator"></div>
 		`;

@@ -9,7 +9,8 @@ const audioContext = new AudioContext();
 
 const states = [];
 const numChannels = audioContext.destination.maxChannelCount;
-console.log('> Num Channels:', numChannels);
+
+console.log('> Num Channels:', audioContext.destination.channelCount);
 
 audioContext.destination.channelCount = numChannels;
 audioContext.destination.channelCountMode = "explicit";
@@ -27,12 +28,13 @@ for (let i = 0; i < numChannels; i++) {
     id:i,
     startFreq:440, // freq, Hz
     endFreq:442, // freq, Hz
-    duration:2, // time, second
+    duration:10, // time, second
     volume:40, // relative, 0/100
-    attack:0.05, // time, second
-    decay:0, // time, second
-    sustain:1, // relative to volume, 0/1
+    attack:2, // time, second
     release:1, // time, second
+    decay:2, // time, second
+    sustain:20, // relative to volume, 0/1
+    stationary:3, // time, second. This is pause time before decay start
     timeoutFunc:null,
     currentFreq:null,
     currentVol:null
